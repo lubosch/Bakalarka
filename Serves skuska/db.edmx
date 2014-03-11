@@ -1,0 +1,1068 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="2.0" xmlns:edmx="http://schemas.microsoft.com/ado/2008/10/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="BakalarkaModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+        <EntityContainer Name="BakalarkaModelStoreContainer">
+          <EntitySet Name="Heading_Word" EntityType="BakalarkaModel.Store.Heading_Word" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Keyword_Heading" EntityType="BakalarkaModel.Store.Keyword_Heading" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Keyword_PDF" EntityType="BakalarkaModel.Store.Keyword_PDF" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Keyword_Word" EntityType="BakalarkaModel.Store.Keyword_Word" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Log_Movie" EntityType="BakalarkaModel.Store.Log_Movie" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Log_Software" EntityType="BakalarkaModel.Store.Log_Software" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Log_Song" EntityType="BakalarkaModel.Store.Log_Song" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Movie" EntityType="BakalarkaModel.Store.Movie" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="PDF" EntityType="BakalarkaModel.Store.PDF" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Software" EntityType="BakalarkaModel.Store.Software" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Song" EntityType="BakalarkaModel.Store.Song" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Text_Word" EntityType="BakalarkaModel.Store.Text_Word" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="User" EntityType="BakalarkaModel.Store.User" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Word" EntityType="BakalarkaModel.Store.Word" store:Type="Tables" Schema="dbo" />
+          <AssociationSet Name="FK_Heading_Word_Heading_Word" Association="BakalarkaModel.Store.FK_Heading_Word_Heading_Word">
+            <End Role="Heading_Word" EntitySet="Heading_Word" />
+            <End Role="Heading_Word1" EntitySet="Heading_Word" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Heading_Word_Word" Association="BakalarkaModel.Store.FK_Heading_Word_Word">
+            <End Role="Word" EntitySet="Word" />
+            <End Role="Heading_Word" EntitySet="Heading_Word" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Keyword_Heading_Heading_Word" Association="BakalarkaModel.Store.FK_Keyword_Heading_Heading_Word">
+            <End Role="Heading_Word" EntitySet="Heading_Word" />
+            <End Role="Keyword_Heading" EntitySet="Keyword_Heading" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Keyword_PDF_PDF" Association="BakalarkaModel.Store.FK_Keyword_PDF_PDF">
+            <End Role="PDF" EntitySet="PDF" />
+            <End Role="Keyword_PDF" EntitySet="Keyword_PDF" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Keyword_Word_Word" Association="BakalarkaModel.Store.FK_Keyword_Word_Word">
+            <End Role="Word" EntitySet="Word" />
+            <End Role="Keyword_Word" EntitySet="Keyword_Word" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Log_Movie_Movie" Association="BakalarkaModel.Store.FK_Log_Movie_Movie">
+            <End Role="Movie" EntitySet="Movie" />
+            <End Role="Log_Movie" EntitySet="Log_Movie" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Log_Movie_Software" Association="BakalarkaModel.Store.FK_Log_Movie_Software">
+            <End Role="Software" EntitySet="Software" />
+            <End Role="Log_Movie" EntitySet="Log_Movie" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Log_Movie_User" Association="BakalarkaModel.Store.FK_Log_Movie_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="Log_Movie" EntitySet="Log_Movie" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Log_Software_Software" Association="BakalarkaModel.Store.FK_Log_Software_Software">
+            <End Role="Software" EntitySet="Software" />
+            <End Role="Log_Software" EntitySet="Log_Software" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Log_Software_User" Association="BakalarkaModel.Store.FK_Log_Software_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="Log_Software" EntitySet="Log_Software" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Log_Song_Software" Association="BakalarkaModel.Store.FK_Log_Song_Software">
+            <End Role="Software" EntitySet="Software" />
+            <End Role="Log_Song" EntitySet="Log_Song" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Log_Song_Song" Association="BakalarkaModel.Store.FK_Log_Song_Song">
+            <End Role="Song" EntitySet="Song" />
+            <End Role="Log_Song" EntitySet="Log_Song" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Log_Song_User" Association="BakalarkaModel.Store.FK_Log_Song_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="Log_Song" EntitySet="Log_Song" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Movie_Software" Association="BakalarkaModel.Store.FK_Movie_Software">
+            <End Role="Software" EntitySet="Software" />
+            <End Role="Movie" EntitySet="Movie" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PDF_Software" Association="BakalarkaModel.Store.FK_PDF_Software">
+            <End Role="Software" EntitySet="Software" />
+            <End Role="PDF" EntitySet="PDF" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Text_Word_Word" Association="BakalarkaModel.Store.FK_Text_Word_Word">
+            <End Role="Word" EntitySet="Word" />
+            <End Role="Text_Word" EntitySet="Text_Word" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Heading_Word">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="word_id" Type="int" Nullable="false" />
+          <Property Name="timestamp" Type="datetime" Nullable="false" />
+          <Property Name="rank" Type="int" Nullable="false" />
+          <Property Name="previous_id" Type="int" />
+          <Property Name="text" Type="text" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Keyword_Heading">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="heading_id" Type="int" Nullable="false" />
+          <Property Name="text" Type="nvarchar" Nullable="false" MaxLength="250" />
+          <Property Name="rating" Type="decimal" Nullable="false" Precision="3" Scale="3" />
+        </EntityType>
+        <EntityType Name="Keyword_PDF">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="text" Type="nvarchar" Nullable="false" MaxLength="250" />
+          <Property Name="pdf_id" Type="int" Nullable="false" />
+          <Property Name="timestamp" Type="datetime" Nullable="false" />
+          <Property Name="rating" Type="decimal" Precision="3" Scale="3" />
+        </EntityType>
+        <EntityType Name="Keyword_Word">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="text" Type="nvarchar" Nullable="false" MaxLength="250" />
+          <Property Name="word_id" Type="int" Nullable="false" />
+          <Property Name="timestamp" Type="datetime" Nullable="false" />
+          <Property Name="rating" Type="decimal" Precision="3" Scale="3" />
+        </EntityType>
+        <EntityType Name="Log_Movie">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="movie_id" Type="int" Nullable="false" />
+          <Property Name="software_id" Type="int" Nullable="false" />
+          <Property Name="started" Type="datetime" Nullable="false" />
+          <Property Name="ended" Type="datetime" />
+          <Property Name="user_id" Type="int" />
+        </EntityType>
+        <EntityType Name="Log_Software">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="software_id" Type="int" Nullable="false" />
+          <Property Name="timestamp" Type="datetime" Nullable="false" />
+          <Property Name="softwareWindowName" Type="nvarchar" Nullable="false" MaxLength="250" />
+          <Property Name="user_id" Type="int" />
+        </EntityType>
+        <EntityType Name="Log_Song">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="song_id" Type="int" Nullable="false" />
+          <Property Name="software_id" Type="int" Nullable="false" />
+          <Property Name="started" Type="datetime" Nullable="false" />
+          <Property Name="ended" Type="datetime" />
+          <Property Name="user_id" Type="int" />
+        </EntityType>
+        <EntityType Name="Movie">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="filename" Type="nvarchar" Nullable="false" MaxLength="250" />
+          <Property Name="name" Type="nvarchar" Nullable="false" MaxLength="250" />
+          <Property Name="software_id" Type="int" Nullable="false" />
+          <Property Name="timestamp" Type="datetime" />
+          <Property Name="times" Type="int" Nullable="false" />
+          <Property Name="length" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PDF">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="filename" Type="nvarchar" Nullable="false" MaxLength="250" />
+          <Property Name="timestamp" Type="datetime" Nullable="false" />
+          <Property Name="software_id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Software">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="nvarchar" Nullable="false" MaxLength="250" />
+          <Property Name="process" Type="nvarchar" Nullable="false" MaxLength="250" />
+          <Property Name="filepath" Type="nvarchar" Nullable="false" MaxLength="250" />
+        </EntityType>
+        <EntityType Name="Song">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="fileName" Type="nvarchar" Nullable="false" MaxLength="250" />
+          <Property Name="name" Type="nvarchar" MaxLength="250" />
+          <Property Name="artist" Type="nvarchar" MaxLength="250" />
+          <Property Name="genre" Type="nvarchar" MaxLength="250" />
+          <Property Name="length" Type="bigint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Text_Word">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="word_id" Type="int" Nullable="false" />
+          <Property Name="timestamp" Type="datetime" Nullable="false" />
+          <Property Name="text" Type="text" Nullable="false" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="nvarchar" MaxLength="250" />
+          <Property Name="email" Type="nvarchar" MaxLength="250" />
+          <Property Name="pass" Type="nvarchar" MaxLength="250" />
+          <Property Name="token" Type="text" />
+          <Property Name="annota_id" Type="int" />
+          <Property Name="pc_uniq" Type="nvarchar" Nullable="false" MaxLength="250" />
+          <Property Name="persistence_token" Type="nvarchar" MaxLength="255" />
+          <Property Name="ip" Type="nvarchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="Word">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="filePath" Type="nvarchar" Nullable="false" MaxLength="450" />
+          <Property Name="name" Type="nvarchar" Nullable="false" MaxLength="250" />
+          <Property Name="timestamp" Type="datetime" Nullable="false" />
+          <Property Name="user_id" Type="int" />
+        </EntityType>
+        <Association Name="FK_Heading_Word_Heading_Word">
+          <End Role="Heading_Word" Type="BakalarkaModel.Store.Heading_Word" Multiplicity="0..1" />
+          <End Role="Heading_Word1" Type="BakalarkaModel.Store.Heading_Word" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Heading_Word">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Heading_Word1">
+              <PropertyRef Name="previous_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Heading_Word_Word">
+          <End Role="Word" Type="BakalarkaModel.Store.Word" Multiplicity="1" />
+          <End Role="Heading_Word" Type="BakalarkaModel.Store.Heading_Word" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Word">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Heading_Word">
+              <PropertyRef Name="word_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Keyword_Heading_Heading_Word">
+          <End Role="Heading_Word" Type="BakalarkaModel.Store.Heading_Word" Multiplicity="1" />
+          <End Role="Keyword_Heading" Type="BakalarkaModel.Store.Keyword_Heading" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Heading_Word">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Keyword_Heading">
+              <PropertyRef Name="id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Keyword_PDF_PDF">
+          <End Role="PDF" Type="BakalarkaModel.Store.PDF" Multiplicity="1" />
+          <End Role="Keyword_PDF" Type="BakalarkaModel.Store.Keyword_PDF" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PDF">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Keyword_PDF">
+              <PropertyRef Name="pdf_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Keyword_Word_Word">
+          <End Role="Word" Type="BakalarkaModel.Store.Word" Multiplicity="1" />
+          <End Role="Keyword_Word" Type="BakalarkaModel.Store.Keyword_Word" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Word">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Keyword_Word">
+              <PropertyRef Name="word_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Log_Movie_Movie">
+          <End Role="Movie" Type="BakalarkaModel.Store.Movie" Multiplicity="1" />
+          <End Role="Log_Movie" Type="BakalarkaModel.Store.Log_Movie" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Movie">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Log_Movie">
+              <PropertyRef Name="movie_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Log_Movie_Software">
+          <End Role="Software" Type="BakalarkaModel.Store.Software" Multiplicity="1" />
+          <End Role="Log_Movie" Type="BakalarkaModel.Store.Log_Movie" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Software">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Log_Movie">
+              <PropertyRef Name="software_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Log_Movie_User">
+          <End Role="User" Type="BakalarkaModel.Store.User" Multiplicity="0..1" />
+          <End Role="Log_Movie" Type="BakalarkaModel.Store.Log_Movie" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Log_Movie">
+              <PropertyRef Name="user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Log_Software_Software">
+          <End Role="Software" Type="BakalarkaModel.Store.Software" Multiplicity="1" />
+          <End Role="Log_Software" Type="BakalarkaModel.Store.Log_Software" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Software">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Log_Software">
+              <PropertyRef Name="software_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Log_Software_User">
+          <End Role="User" Type="BakalarkaModel.Store.User" Multiplicity="0..1" />
+          <End Role="Log_Software" Type="BakalarkaModel.Store.Log_Software" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Log_Software">
+              <PropertyRef Name="user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Log_Song_Software">
+          <End Role="Software" Type="BakalarkaModel.Store.Software" Multiplicity="1" />
+          <End Role="Log_Song" Type="BakalarkaModel.Store.Log_Song" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Software">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Log_Song">
+              <PropertyRef Name="software_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Log_Song_Song">
+          <End Role="Song" Type="BakalarkaModel.Store.Song" Multiplicity="1" />
+          <End Role="Log_Song" Type="BakalarkaModel.Store.Log_Song" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Song">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Log_Song">
+              <PropertyRef Name="song_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Log_Song_User">
+          <End Role="User" Type="BakalarkaModel.Store.User" Multiplicity="0..1" />
+          <End Role="Log_Song" Type="BakalarkaModel.Store.Log_Song" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Log_Song">
+              <PropertyRef Name="user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Movie_Software">
+          <End Role="Software" Type="BakalarkaModel.Store.Software" Multiplicity="1" />
+          <End Role="Movie" Type="BakalarkaModel.Store.Movie" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Software">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Movie">
+              <PropertyRef Name="software_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PDF_Software">
+          <End Role="Software" Type="BakalarkaModel.Store.Software" Multiplicity="1" />
+          <End Role="PDF" Type="BakalarkaModel.Store.PDF" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Software">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="PDF">
+              <PropertyRef Name="software_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Text_Word_Word">
+          <End Role="Word" Type="BakalarkaModel.Store.Word" Multiplicity="1" />
+          <End Role="Text_Word" Type="BakalarkaModel.Store.Text_Word" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Word">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Text_Word">
+              <PropertyRef Name="word_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="BakalarkaModel" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns="http://schemas.microsoft.com/ado/2008/09/edm" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation">
+        <EntityContainer Name="BakalarkaEntities" p1:LazyLoadingEnabled="true">
+          <EntitySet Name="Heading_Word" EntityType="BakalarkaModel.Heading_Word" />
+          <EntitySet Name="Keyword_Heading" EntityType="BakalarkaModel.Keyword_Heading" />
+          <EntitySet Name="Keyword_PDF" EntityType="BakalarkaModel.Keyword_PDF" />
+          <EntitySet Name="Keyword_Word" EntityType="BakalarkaModel.Keyword_Word" />
+          <EntitySet Name="Log_Movie" EntityType="BakalarkaModel.Log_Movie" />
+          <EntitySet Name="Log_Software" EntityType="BakalarkaModel.Log_Software" />
+          <EntitySet Name="Log_Song" EntityType="BakalarkaModel.Log_Song" />
+          <EntitySet Name="Movies" EntityType="BakalarkaModel.Movie" />
+          <EntitySet Name="PDFs" EntityType="BakalarkaModel.PDF" />
+          <EntitySet Name="Softwares" EntityType="BakalarkaModel.Software" />
+          <EntitySet Name="Songs" EntityType="BakalarkaModel.Song" />
+          <EntitySet Name="Text_Word" EntityType="BakalarkaModel.Text_Word" />
+          <EntitySet Name="Words" EntityType="BakalarkaModel.Word" />
+          <AssociationSet Name="FK_Heading_Word_Heading_Word" Association="BakalarkaModel.FK_Heading_Word_Heading_Word">
+            <End Role="Heading_Word" EntitySet="Heading_Word" />
+            <End Role="Heading_Word1" EntitySet="Heading_Word" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Heading_Word_Word" Association="BakalarkaModel.FK_Heading_Word_Word">
+            <End Role="Word" EntitySet="Words" />
+            <End Role="Heading_Word" EntitySet="Heading_Word" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Keyword_Heading_Heading_Word" Association="BakalarkaModel.FK_Keyword_Heading_Heading_Word">
+            <End Role="Heading_Word" EntitySet="Heading_Word" />
+            <End Role="Keyword_Heading" EntitySet="Keyword_Heading" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Keyword_PDF_PDF" Association="BakalarkaModel.FK_Keyword_PDF_PDF">
+            <End Role="PDF" EntitySet="PDFs" />
+            <End Role="Keyword_PDF" EntitySet="Keyword_PDF" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Keyword_Word_Word" Association="BakalarkaModel.FK_Keyword_Word_Word">
+            <End Role="Word" EntitySet="Words" />
+            <End Role="Keyword_Word" EntitySet="Keyword_Word" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Log_Movie_Movie" Association="BakalarkaModel.FK_Log_Movie_Movie">
+            <End Role="Movie" EntitySet="Movies" />
+            <End Role="Log_Movie" EntitySet="Log_Movie" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Log_Movie_Software" Association="BakalarkaModel.FK_Log_Movie_Software">
+            <End Role="Software" EntitySet="Softwares" />
+            <End Role="Log_Movie" EntitySet="Log_Movie" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Log_Software_Software" Association="BakalarkaModel.FK_Log_Software_Software">
+            <End Role="Software" EntitySet="Softwares" />
+            <End Role="Log_Software" EntitySet="Log_Software" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Log_Song_Software" Association="BakalarkaModel.FK_Log_Song_Software">
+            <End Role="Software" EntitySet="Softwares" />
+            <End Role="Log_Song" EntitySet="Log_Song" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Log_Song_Song" Association="BakalarkaModel.FK_Log_Song_Song">
+            <End Role="Song" EntitySet="Songs" />
+            <End Role="Log_Song" EntitySet="Log_Song" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Movie_Software" Association="BakalarkaModel.FK_Movie_Software">
+            <End Role="Software" EntitySet="Softwares" />
+            <End Role="Movie" EntitySet="Movies" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PDF_Software" Association="BakalarkaModel.FK_PDF_Software">
+            <End Role="Software" EntitySet="Softwares" />
+            <End Role="PDF" EntitySet="PDFs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Text_Word_Word" Association="BakalarkaModel.FK_Text_Word_Word">
+            <End Role="Word" EntitySet="Words" />
+            <End Role="Text_Word" EntitySet="Text_Word" />
+          </AssociationSet>
+          <EntitySet Name="Users" EntityType="BakalarkaModel.User" />
+          <AssociationSet Name="FK_Log_Movie_User" Association="BakalarkaModel.FK_Log_Movie_User">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Log_Movie" EntitySet="Log_Movie" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Log_Software_User" Association="BakalarkaModel.FK_Log_Software_User">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Log_Software" EntitySet="Log_Software" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Log_Song_User" Association="BakalarkaModel.FK_Log_Song_User">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Log_Song" EntitySet="Log_Song" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Heading_Word">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Type="Int32" Name="id" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
+          <Property Type="Int32" Name="word_id" Nullable="false" />
+          <Property Type="DateTime" Name="timestamp" Nullable="false" Precision="3" />
+          <Property Type="Int32" Name="rank" Nullable="false" />
+          <Property Type="Int32" Name="previous_id" />
+          <Property Type="String" Name="text" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Heading_Word1" Relationship="BakalarkaModel.FK_Heading_Word_Heading_Word" FromRole="Heading_Word" ToRole="Heading_Word1" />
+          <NavigationProperty Name="Heading_Word2" Relationship="BakalarkaModel.FK_Heading_Word_Heading_Word" FromRole="Heading_Word1" ToRole="Heading_Word" />
+          <NavigationProperty Name="Word" Relationship="BakalarkaModel.FK_Heading_Word_Word" FromRole="Heading_Word" ToRole="Word" />
+          <NavigationProperty Name="Keyword_Heading" Relationship="BakalarkaModel.FK_Keyword_Heading_Heading_Word" FromRole="Heading_Word" ToRole="Keyword_Heading" />
+        </EntityType>
+        <EntityType Name="Keyword_Heading">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Type="Int32" Name="id" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
+          <Property Type="Int32" Name="heading_id" Nullable="false" />
+          <Property Type="String" Name="text" Nullable="false" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Type="Decimal" Name="rating" Nullable="false" Precision="3" Scale="3" />
+          <NavigationProperty Name="Heading_Word" Relationship="BakalarkaModel.FK_Keyword_Heading_Heading_Word" FromRole="Keyword_Heading" ToRole="Heading_Word" />
+        </EntityType>
+        <EntityType Name="Keyword_PDF">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Type="Int32" Name="id" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
+          <Property Type="String" Name="text" Nullable="false" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Type="Int32" Name="pdf_id" Nullable="false" />
+          <Property Type="DateTime" Name="timestamp" Nullable="false" Precision="3" />
+          <Property Type="Decimal" Name="rating" Precision="3" Scale="3" />
+          <NavigationProperty Name="PDF" Relationship="BakalarkaModel.FK_Keyword_PDF_PDF" FromRole="Keyword_PDF" ToRole="PDF" />
+        </EntityType>
+        <EntityType Name="Keyword_Word">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Type="Int32" Name="id" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
+          <Property Type="String" Name="text" Nullable="false" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Type="Int32" Name="word_id" Nullable="false" />
+          <Property Type="DateTime" Name="timestamp" Nullable="false" Precision="3" />
+          <Property Type="Decimal" Name="rating" Precision="3" Scale="3" />
+          <NavigationProperty Name="Word" Relationship="BakalarkaModel.FK_Keyword_Word_Word" FromRole="Keyword_Word" ToRole="Word" />
+        </EntityType>
+        <EntityType Name="Log_Movie">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Type="Int32" Name="id" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
+          <Property Type="Int32" Name="movie_id" Nullable="false" />
+          <Property Type="Int32" Name="software_id" Nullable="false" />
+          <Property Type="DateTime" Name="started" Nullable="false" Precision="3" />
+          <Property Type="DateTime" Name="ended" Precision="3" />
+          <NavigationProperty Name="Movie" Relationship="BakalarkaModel.FK_Log_Movie_Movie" FromRole="Log_Movie" ToRole="Movie" />
+          <NavigationProperty Name="Software" Relationship="BakalarkaModel.FK_Log_Movie_Software" FromRole="Log_Movie" ToRole="Software" />
+          <Property Type="Int32" Name="user_id" />
+          <NavigationProperty Name="User" Relationship="BakalarkaModel.FK_Log_Movie_User" FromRole="Log_Movie" ToRole="User" />
+        </EntityType>
+        <EntityType Name="Log_Software">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Type="Int32" Name="id" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
+          <Property Type="Int32" Name="software_id" Nullable="false" />
+          <Property Type="DateTime" Name="timestamp" Nullable="false" Precision="3" />
+          <Property Type="String" Name="softwareWindowName" Nullable="false" MaxLength="250" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Software" Relationship="BakalarkaModel.FK_Log_Software_Software" FromRole="Log_Software" ToRole="Software" />
+          <Property Type="Int32" Name="user_id" />
+          <NavigationProperty Name="User" Relationship="BakalarkaModel.FK_Log_Software_User" FromRole="Log_Software" ToRole="User" />
+        </EntityType>
+        <EntityType Name="Log_Song">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Type="Int32" Name="id" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
+          <Property Type="Int32" Name="song_id" Nullable="false" />
+          <Property Type="Int32" Name="software_id" Nullable="false" />
+          <Property Type="DateTime" Name="started" Nullable="false" Precision="3" />
+          <Property Type="DateTime" Name="ended" Precision="3" />
+          <NavigationProperty Name="Software" Relationship="BakalarkaModel.FK_Log_Song_Software" FromRole="Log_Song" ToRole="Software" />
+          <NavigationProperty Name="Song" Relationship="BakalarkaModel.FK_Log_Song_Song" FromRole="Log_Song" ToRole="Song" />
+          <Property Type="Int32" Name="user_id" />
+          <NavigationProperty Name="User" Relationship="BakalarkaModel.FK_Log_Song_User" FromRole="Log_Song" ToRole="User" />
+        </EntityType>
+        <EntityType Name="Movie">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Type="Int32" Name="id" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
+          <Property Type="String" Name="filename" Nullable="false" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="name" Nullable="false" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Type="Int32" Name="software_id" Nullable="false" />
+          <Property Type="DateTime" Name="timestamp" Precision="3" />
+          <Property Type="Int32" Name="times" Nullable="false" />
+          <Property Type="Int32" Name="length" Nullable="false" />
+          <NavigationProperty Name="Log_Movie" Relationship="BakalarkaModel.FK_Log_Movie_Movie" FromRole="Movie" ToRole="Log_Movie" />
+          <NavigationProperty Name="Software" Relationship="BakalarkaModel.FK_Movie_Software" FromRole="Movie" ToRole="Software" />
+        </EntityType>
+        <EntityType Name="PDF">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Type="Int32" Name="id" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
+          <Property Type="String" Name="filename" Nullable="false" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Type="DateTime" Name="timestamp" Nullable="false" Precision="3" />
+          <Property Type="Int32" Name="software_id" Nullable="false" />
+          <NavigationProperty Name="Keyword_PDF" Relationship="BakalarkaModel.FK_Keyword_PDF_PDF" FromRole="PDF" ToRole="Keyword_PDF" />
+          <NavigationProperty Name="Software" Relationship="BakalarkaModel.FK_PDF_Software" FromRole="PDF" ToRole="Software" />
+        </EntityType>
+        <EntityType Name="Software">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Type="Int32" Name="id" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
+          <Property Type="String" Name="name" Nullable="false" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="process" Nullable="false" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="filepath" Nullable="false" MaxLength="250" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Log_Movie" Relationship="BakalarkaModel.FK_Log_Movie_Software" FromRole="Software" ToRole="Log_Movie" />
+          <NavigationProperty Name="Log_Software" Relationship="BakalarkaModel.FK_Log_Software_Software" FromRole="Software" ToRole="Log_Software" />
+          <NavigationProperty Name="Log_Song" Relationship="BakalarkaModel.FK_Log_Song_Software" FromRole="Software" ToRole="Log_Song" />
+          <NavigationProperty Name="Movies" Relationship="BakalarkaModel.FK_Movie_Software" FromRole="Software" ToRole="Movie" />
+          <NavigationProperty Name="PDFs" Relationship="BakalarkaModel.FK_PDF_Software" FromRole="Software" ToRole="PDF" />
+        </EntityType>
+        <EntityType Name="Song">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Type="Int32" Name="id" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
+          <Property Type="String" Name="fileName" Nullable="false" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="name" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="artist" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="genre" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Type="Int64" Name="length" Nullable="false" />
+          <NavigationProperty Name="Log_Song" Relationship="BakalarkaModel.FK_Log_Song_Song" FromRole="Song" ToRole="Log_Song" />
+        </EntityType>
+        <EntityType Name="Text_Word">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Type="Int32" Name="id" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
+          <Property Type="Int32" Name="word_id" Nullable="false" />
+          <Property Type="DateTime" Name="timestamp" Nullable="false" Precision="3" />
+          <Property Type="String" Name="text" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Word" Relationship="BakalarkaModel.FK_Text_Word_Word" FromRole="Text_Word" ToRole="Word" />
+        </EntityType>
+        <EntityType Name="Word">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Type="Int32" Name="id" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
+          <Property Type="String" Name="filePath" Nullable="false" MaxLength="450" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="name" Nullable="false" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Type="DateTime" Name="timestamp" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Heading_Word" Relationship="BakalarkaModel.FK_Heading_Word_Word" FromRole="Word" ToRole="Heading_Word" />
+          <NavigationProperty Name="Keyword_Word" Relationship="BakalarkaModel.FK_Keyword_Word_Word" FromRole="Word" ToRole="Keyword_Word" />
+          <NavigationProperty Name="Text_Word" Relationship="BakalarkaModel.FK_Text_Word_Word" FromRole="Word" ToRole="Text_Word" />
+          <Property Type="Int32" Name="user_id" />
+        </EntityType>
+        <Association Name="FK_Heading_Word_Heading_Word">
+          <End Type="BakalarkaModel.Heading_Word" Role="Heading_Word" Multiplicity="0..1" />
+          <End Type="BakalarkaModel.Heading_Word" Role="Heading_Word1" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Heading_Word">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Heading_Word1">
+              <PropertyRef Name="previous_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Heading_Word_Word">
+          <End Type="BakalarkaModel.Word" Role="Word" Multiplicity="1" />
+          <End Type="BakalarkaModel.Heading_Word" Role="Heading_Word" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Word">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Heading_Word">
+              <PropertyRef Name="word_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Keyword_Heading_Heading_Word">
+          <End Type="BakalarkaModel.Heading_Word" Role="Heading_Word" Multiplicity="1" />
+          <End Type="BakalarkaModel.Keyword_Heading" Role="Keyword_Heading" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Heading_Word">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Keyword_Heading">
+              <PropertyRef Name="id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Keyword_PDF_PDF">
+          <End Type="BakalarkaModel.PDF" Role="PDF" Multiplicity="1" />
+          <End Type="BakalarkaModel.Keyword_PDF" Role="Keyword_PDF" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PDF">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Keyword_PDF">
+              <PropertyRef Name="pdf_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Keyword_Word_Word">
+          <End Type="BakalarkaModel.Word" Role="Word" Multiplicity="1" />
+          <End Type="BakalarkaModel.Keyword_Word" Role="Keyword_Word" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Word">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Keyword_Word">
+              <PropertyRef Name="word_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Log_Movie_Movie">
+          <End Type="BakalarkaModel.Movie" Role="Movie" Multiplicity="1" />
+          <End Type="BakalarkaModel.Log_Movie" Role="Log_Movie" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Movie">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Log_Movie">
+              <PropertyRef Name="movie_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Log_Movie_Software">
+          <End Type="BakalarkaModel.Software" Role="Software" Multiplicity="1" />
+          <End Type="BakalarkaModel.Log_Movie" Role="Log_Movie" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Software">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Log_Movie">
+              <PropertyRef Name="software_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Log_Software_Software">
+          <End Type="BakalarkaModel.Software" Role="Software" Multiplicity="1" />
+          <End Type="BakalarkaModel.Log_Software" Role="Log_Software" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Software">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Log_Software">
+              <PropertyRef Name="software_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Log_Song_Software">
+          <End Type="BakalarkaModel.Software" Role="Software" Multiplicity="1" />
+          <End Type="BakalarkaModel.Log_Song" Role="Log_Song" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Software">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Log_Song">
+              <PropertyRef Name="software_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Log_Song_Song">
+          <End Type="BakalarkaModel.Song" Role="Song" Multiplicity="1" />
+          <End Type="BakalarkaModel.Log_Song" Role="Log_Song" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Song">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Log_Song">
+              <PropertyRef Name="song_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Movie_Software">
+          <End Type="BakalarkaModel.Software" Role="Software" Multiplicity="1" />
+          <End Type="BakalarkaModel.Movie" Role="Movie" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Software">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Movie">
+              <PropertyRef Name="software_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PDF_Software">
+          <End Type="BakalarkaModel.Software" Role="Software" Multiplicity="1" />
+          <End Type="BakalarkaModel.PDF" Role="PDF" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Software">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="PDF">
+              <PropertyRef Name="software_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Text_Word_Word">
+          <End Type="BakalarkaModel.Word" Role="Word" Multiplicity="1" />
+          <End Type="BakalarkaModel.Text_Word" Role="Text_Word" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Word">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Text_Word">
+              <PropertyRef Name="word_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Type="Int32" Name="id" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
+          <Property Type="String" Name="name" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="email" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="pass" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="token" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Type="Int32" Name="annota_id" />
+          <Property Type="String" Name="pc_uniq" Nullable="false" MaxLength="250" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Log_Movie" Relationship="BakalarkaModel.FK_Log_Movie_User" FromRole="User" ToRole="Log_Movie" />
+          <NavigationProperty Name="Log_Software" Relationship="BakalarkaModel.FK_Log_Software_User" FromRole="User" ToRole="Log_Software" />
+          <NavigationProperty Name="Log_Song" Relationship="BakalarkaModel.FK_Log_Song_User" FromRole="User" ToRole="Log_Song" />
+          <Property Type="String" Name="persistence_token" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="ip" MaxLength="255" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <Association Name="FK_Log_Movie_User">
+          <End Type="BakalarkaModel.User" Role="User" Multiplicity="0..1" />
+          <End Type="BakalarkaModel.Log_Movie" Role="Log_Movie" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Log_Movie">
+              <PropertyRef Name="user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Log_Software_User">
+          <End Type="BakalarkaModel.User" Role="User" Multiplicity="0..1" />
+          <End Type="BakalarkaModel.Log_Software" Role="Log_Software" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Log_Software">
+              <PropertyRef Name="user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Log_Song_User">
+          <End Type="BakalarkaModel.User" Role="User" Multiplicity="0..1" />
+          <End Type="BakalarkaModel.Log_Song" Role="Log_Song" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Log_Song">
+              <PropertyRef Name="user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="BakalarkaModelStoreContainer" CdmEntityContainer="BakalarkaEntities">
+          <EntitySetMapping Name="Heading_Word">
+            <EntityTypeMapping TypeName="BakalarkaModel.Heading_Word">
+              <MappingFragment StoreEntitySet="Heading_Word">
+                <ScalarProperty Name="text" ColumnName="text" />
+                <ScalarProperty Name="previous_id" ColumnName="previous_id" />
+                <ScalarProperty Name="rank" ColumnName="rank" />
+                <ScalarProperty Name="timestamp" ColumnName="timestamp" />
+                <ScalarProperty Name="word_id" ColumnName="word_id" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Keyword_Heading">
+            <EntityTypeMapping TypeName="BakalarkaModel.Keyword_Heading">
+              <MappingFragment StoreEntitySet="Keyword_Heading">
+                <ScalarProperty Name="rating" ColumnName="rating" />
+                <ScalarProperty Name="text" ColumnName="text" />
+                <ScalarProperty Name="heading_id" ColumnName="heading_id" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Keyword_PDF">
+            <EntityTypeMapping TypeName="BakalarkaModel.Keyword_PDF">
+              <MappingFragment StoreEntitySet="Keyword_PDF">
+                <ScalarProperty Name="rating" ColumnName="rating" />
+                <ScalarProperty Name="timestamp" ColumnName="timestamp" />
+                <ScalarProperty Name="pdf_id" ColumnName="pdf_id" />
+                <ScalarProperty Name="text" ColumnName="text" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Keyword_Word">
+            <EntityTypeMapping TypeName="BakalarkaModel.Keyword_Word">
+              <MappingFragment StoreEntitySet="Keyword_Word">
+                <ScalarProperty Name="rating" ColumnName="rating" />
+                <ScalarProperty Name="timestamp" ColumnName="timestamp" />
+                <ScalarProperty Name="word_id" ColumnName="word_id" />
+                <ScalarProperty Name="text" ColumnName="text" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Log_Movie">
+            <EntityTypeMapping TypeName="BakalarkaModel.Log_Movie">
+              <MappingFragment StoreEntitySet="Log_Movie">
+                <ScalarProperty Name="user_id" ColumnName="user_id" />
+                <ScalarProperty Name="ended" ColumnName="ended" />
+                <ScalarProperty Name="started" ColumnName="started" />
+                <ScalarProperty Name="software_id" ColumnName="software_id" />
+                <ScalarProperty Name="movie_id" ColumnName="movie_id" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Log_Software">
+            <EntityTypeMapping TypeName="BakalarkaModel.Log_Software">
+              <MappingFragment StoreEntitySet="Log_Software">
+                <ScalarProperty Name="user_id" ColumnName="user_id" />
+                <ScalarProperty Name="softwareWindowName" ColumnName="softwareWindowName" />
+                <ScalarProperty Name="timestamp" ColumnName="timestamp" />
+                <ScalarProperty Name="software_id" ColumnName="software_id" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Log_Song">
+            <EntityTypeMapping TypeName="BakalarkaModel.Log_Song">
+              <MappingFragment StoreEntitySet="Log_Song">
+                <ScalarProperty Name="user_id" ColumnName="user_id" />
+                <ScalarProperty Name="ended" ColumnName="ended" />
+                <ScalarProperty Name="started" ColumnName="started" />
+                <ScalarProperty Name="software_id" ColumnName="software_id" />
+                <ScalarProperty Name="song_id" ColumnName="song_id" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Movies">
+            <EntityTypeMapping TypeName="BakalarkaModel.Movie">
+              <MappingFragment StoreEntitySet="Movie">
+                <ScalarProperty Name="length" ColumnName="length" />
+                <ScalarProperty Name="times" ColumnName="times" />
+                <ScalarProperty Name="timestamp" ColumnName="timestamp" />
+                <ScalarProperty Name="software_id" ColumnName="software_id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="filename" ColumnName="filename" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PDFs">
+            <EntityTypeMapping TypeName="BakalarkaModel.PDF">
+              <MappingFragment StoreEntitySet="PDF">
+                <ScalarProperty Name="software_id" ColumnName="software_id" />
+                <ScalarProperty Name="timestamp" ColumnName="timestamp" />
+                <ScalarProperty Name="filename" ColumnName="filename" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Softwares">
+            <EntityTypeMapping TypeName="BakalarkaModel.Software">
+              <MappingFragment StoreEntitySet="Software">
+                <ScalarProperty Name="filepath" ColumnName="filepath" />
+                <ScalarProperty Name="process" ColumnName="process" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Songs">
+            <EntityTypeMapping TypeName="BakalarkaModel.Song">
+              <MappingFragment StoreEntitySet="Song">
+                <ScalarProperty Name="length" ColumnName="length" />
+                <ScalarProperty Name="genre" ColumnName="genre" />
+                <ScalarProperty Name="artist" ColumnName="artist" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="fileName" ColumnName="fileName" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Text_Word">
+            <EntityTypeMapping TypeName="BakalarkaModel.Text_Word">
+              <MappingFragment StoreEntitySet="Text_Word">
+                <ScalarProperty Name="text" ColumnName="text" />
+                <ScalarProperty Name="timestamp" ColumnName="timestamp" />
+                <ScalarProperty Name="word_id" ColumnName="word_id" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Words">
+            <EntityTypeMapping TypeName="BakalarkaModel.Word">
+              <MappingFragment StoreEntitySet="Word">
+                <ScalarProperty Name="user_id" ColumnName="user_id" />
+                <ScalarProperty Name="timestamp" ColumnName="timestamp" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="filePath" ColumnName="filePath" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="BakalarkaModel.User">
+              <MappingFragment StoreEntitySet="User">
+                <ScalarProperty Name="ip" ColumnName="ip" />
+                <ScalarProperty Name="persistence_token" ColumnName="persistence_token" />
+                <ScalarProperty Name="pc_uniq" ColumnName="pc_uniq" />
+                <ScalarProperty Name="annota_id" ColumnName="annota_id" />
+                <ScalarProperty Name="token" ColumnName="token" />
+                <ScalarProperty Name="pass" ColumnName="pass" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2008/10/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams />
+  </Designer>
+</edmx:Edmx>
