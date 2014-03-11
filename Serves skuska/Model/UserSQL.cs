@@ -1,91 +1,71 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Management;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using Wordik.SQL;
 
 namespace Tabber.Model
 {
     public class UserSQL
     {
-        public User user;
+        public int user_id;
 
         public UserSQL()
         {
             string unique_id = get_my_uniq_id();
-            this.user = Add_user(unique_id);
-
+            this.user_id = get_by_uniq_id(unique_id);
         }
 
         public UserSQL(string crypted_pass, string name, string email, int annota_id)
         {
             string unique_id = get_my_uniq_id();
-            this.user = Add_user(unique_id);
-            UpdateUser(crypted_pass, name, email, annota_id);
+            this.user_id = get_by_uniq_id(unique_id);
         }
 
-        public User Add_user(string uniq_id)
+
+        public int get_by_uniq_id(string uniq_id)
         {
-            User u = get_by_uniq_id(uniq_id);
-            if (u == null)
+
+            Main_SQL.OpenConnestion();
+            Main_SQL.AddParameter("uniq_id", uniq_id);
+            Main_SQL.AddCommand("SELECT ID FROM [User] WHERE pc_uniq = @uniq_id");
+            DataSet ds = Main_SQL.Commit_List();
+
+            int id = analyzeFound(ds.Tables[0]);
+            if (id == -1)
             {
-                var db = new BakalarkaEntities();
-                u = new User
-                {
-                    pc_uniq = uniq_id
-                };
-                db.Users.Add(u);
-                db.SaveChanges();
-                u = get_by_uniq_id(uniq_id);
-            }
-            if (u.ip == null)
-            {
+                Main_SQL.OpenConnestion();
+                Main_SQL.AddParameter("uniq_id", uniq_id);
+                Main_SQL.AddCommand("INSERT INTO [User](pc_uniq) VALUES (@uniq_id)");
+                Main_SQL.Odpal();
+
                 using (WebClient client = new WebClient())
                 {
                     byte[] response = client.UploadValues("http://77.234.226.34:3000/user/update_ip", new System.Collections.Specialized.NameValueCollection() { { "uniq_pc", uniq_id } });
                 }
+
+                return get_by_uniq_id(uniq_id);
             }
-            return u;
-        }
+            return id;
 
-        public void UpdateUser(string crypted_pass, string name, string email, int annota_id)
-        {
-            if (this.user == null)
-            {
-                return;
-            }
-
-            var db = new BakalarkaEntities();
-
-            this.user.pass = crypted_pass;
-            this.user.name = name;
-            this.user.email = email;
-            this.user.annota_id = annota_id;
-
-            db.SaveChanges();
 
         }
 
-
-        public User get_by_uniq_id(string uniq_id)
+        public int analyzeFound(DataTable dt)
         {
-            var db = new BakalarkaEntities();
-            var users = db.Users.Where(user => user.pc_uniq == uniq_id);
-
-            User u;
-            if (users.Count() > 0)
+            if (dt.Rows.Count > 0)
             {
-                u = users.First();
-                return u;
+                return int.Parse(dt.Rows[0][0].ToString());
             }
             else
             {
-                return null;
+                return -1;
             }
         }
-
 
         public string get_my_uniq_id()
         {

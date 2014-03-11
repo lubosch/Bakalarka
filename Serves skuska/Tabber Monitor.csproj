@@ -58,13 +58,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>Kniznice\DirectShowLib-2005.dll</HintPath>
     </Reference>
-    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\EntityFramework.6.0.2\lib\net40\EntityFramework.dll</HintPath>
-    </Reference>
-    <Reference Include="EntityFramework.SqlServer">
-      <HintPath>..\packages\EntityFramework.6.0.2\lib\net40\EntityFramework.SqlServer.dll</HintPath>
-    </Reference>
     <Reference Include="itextsharp">
       <HintPath>Kniznice\itextsharp.dll</HintPath>
     </Reference>
@@ -107,80 +100,24 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="db.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>db.Context.tt</DependentUpon>
-    </Compile>
-    <Compile Include="db.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>db.tt</DependentUpon>
-    </Compile>
-    <Compile Include="db.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>db.edmx</DependentUpon>
-    </Compile>
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
-    <Compile Include="Heading_Word.cs">
-      <DependentUpon>db.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Keyword_Heading.cs">
-      <DependentUpon>db.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Keyword_PDF.cs">
-      <DependentUpon>db.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Keyword_Word.cs">
-      <DependentUpon>db.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Log_Movie.cs">
-      <DependentUpon>db.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Log_Software.cs">
-      <DependentUpon>db.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Log_Song.cs">
-      <DependentUpon>db.tt</DependentUpon>
-    </Compile>
+    <Compile Include="Model\Main_SQL.cs" />
     <Compile Include="Model\SongSQL.cs" />
     <Compile Include="Model\LogSoftwareSQL.cs" />
     <Compile Include="Model\SoftwareSQL.cs" />
     <Compile Include="Model\UserSQL.cs" />
     <Compile Include="Model\VideoSQL.cs" />
-    <Compile Include="Movie.cs">
-      <DependentUpon>db.tt</DependentUpon>
-    </Compile>
     <Compile Include="OCR.cs" />
-    <Compile Include="PDF.cs">
-      <DependentUpon>db.tt</DependentUpon>
-    </Compile>
     <Compile Include="PDFParser.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Settings.cs" />
-    <Compile Include="Software.cs">
-      <DependentUpon>db.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Song.cs">
-      <DependentUpon>db.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Text_Word.cs">
-      <DependentUpon>db.tt</DependentUpon>
-    </Compile>
-    <Compile Include="User.cs">
-      <DependentUpon>db.tt</DependentUpon>
-    </Compile>
     <Compile Include="Widgety\UacHelper.cs" />
-    <Compile Include="Word.cs">
-      <DependentUpon>db.tt</DependentUpon>
-    </Compile>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
@@ -194,24 +131,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <EntityDeploy Include="db.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>db.Designer.cs</LastGenOutput>
-    </EntityDeploy>
     <None Include="app.manifest" />
-    <None Include="db.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>db.edmx</DependentUpon>
-      <LastGenOutput>db.Context.cs</LastGenOutput>
-    </None>
-    <None Include="db.edmx.diagram">
-      <DependentUpon>db.edmx</DependentUpon>
-    </None>
-    <None Include="db.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>db.edmx</DependentUpon>
-      <LastGenOutput>db.cs</LastGenOutput>
-    </None>
     <None Include="Kniznice\tessdata\eng.DangAmbigs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -263,7 +183,9 @@
     <None Include="Kniznice\MSMQ.dll" />
     <None Include="Kniznice\MSMQ.pdb" />
     <None Include="Kniznice\policy.2.0.taglib-sharp.dll" />
-    <None Include="Kniznice\taglib-sharp.dll" />
+    <None Include="Kniznice\taglib-sharp.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5">

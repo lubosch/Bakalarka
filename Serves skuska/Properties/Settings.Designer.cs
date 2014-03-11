@@ -22,5 +22,16 @@ namespace Tabber.Properties {
                 return defaultInstance;
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
+        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=77.234.226.34;Initial Catalog=Bakalarka;Persist Security Info=True;Us" +
+            "er ID=lubosch;Password=aassdd")]
+        public string RotekConnectionString {
+            get {
+                return ((string)(this["RotekConnectionString"]));
+            }
+        }
     }
 }

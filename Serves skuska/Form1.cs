@@ -311,14 +311,8 @@ namespace Tabber
                                     }
                                     catch (System.Exception ex)
                                     {
-                                        if (ex is System.Data.SqlClient.SqlException || ex is System.Data.Entity.Core.EntityException)
-                                        {
-                                            pauseLog(300000);
-                                        }
-                                        else
-                                        {
-                                            Error.Show(ex, Form1.get_user_id().ToString());
-                                        }
+                                        //pauseLog(300000);
+                                        Error.Show(ex, Form1.get_user_id().ToString());
 
                                     }
                                     break;
@@ -341,14 +335,14 @@ namespace Tabber
                                     }
                                     catch (System.Exception ex)
                                     {
-                                        if (ex is System.Data.SqlClient.SqlException || ex is System.Data.Entity.Core.EntityException)
-                                        {
-                                            pauseLog(300000);
-                                        }
-                                        else
-                                        {
-                                            Error.Show(ex, Form1.get_user_id().ToString());
-                                        }
+                                        //if (ex is System.Data.SqlClient.SqlException || ex is System.Data.Entity.Core.EntityException)
+                                        //{
+                                        //    pauseLog(300000);
+                                        //}
+                                        //else
+                                        //{
+                                        Error.Show(ex, Form1.get_user_id().ToString());
+                                        //}
                                     }
                                     break;
                             }
@@ -574,21 +568,25 @@ namespace Tabber
 
                 Debug.WriteLine(DateTime.Now.ToShortTimeString() + " zaciatok");
                 ProcessData process = GetTopWindowProcessData();
-                LogSoftwareSQL.AddNewLog(process, get_user_id());
+                using (WebClient client = new WebClient())
+                {
+                    byte[] response = client.UploadValues("http://77.234.226.34:3000/log_software", new System.Collections.Specialized.NameValueCollection() { { "process_name", process.processName}, { "window_name", process.windowName}, { "description", process.description }, { "filepath", process.filePath} });
+                }
+                //LogSoftwareSQL.AddNewLog(process, get_user_id());
 
                 System.Console.WriteLine("Lognute> " + process.filePath + " | " + process.processName + " | " + process.windowName + "\r\n");
                 Debug.WriteLine("koniec");
             }
             catch (System.Exception ex)
             {
-                if (ex is System.Data.SqlClient.SqlException || ex is System.Data.Entity.Core.EntityException)
-                {
-                    pauseLog(300000);
-                }
-                else
-                {
-                    Error.Show(ex, Form1.get_user_id().ToString());
-                }
+                //if (ex is System.Data.SqlClient.SqlException || ex is System.Data.Entity.Core.EntityException)
+                //{
+                //    pauseLog(300000);
+                //}
+                //else
+                //{
+                Error.Show(ex, Form1.get_user_id().ToString());
+                //}
             }
 
             //Error.Show(GetActiveWindowTitle() + "  " + GetTopWindowName() + "\r\n");
@@ -648,7 +646,7 @@ namespace Tabber
             if (Form1.user_ID == -1)
             {
                 UserSQL u = new UserSQL();
-                Form1.user_ID = u.user.id;
+                Form1.user_ID = u.user_id;
             }
             return Form1.user_ID;
         }
