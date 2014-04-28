@@ -34,7 +34,7 @@
     <PublishUrl>ftp://vnenk.orava.sk/www/html/Wordik/</PublishUrl>
     <InstallUrl>http://vnenk.orava.sk/Wordik/</InstallUrl>
     <TargetCulture>en</TargetCulture>
-    <ApplicationVersion>1.0.0.17</ApplicationVersion>
+    <ApplicationVersion>1.0.0.20</ApplicationVersion>
     <AutoIncrementApplicationRevision>true</AutoIncrementApplicationRevision>
     <UpdateEnabled>true</UpdateEnabled>
     <UpdateInterval>0</UpdateInterval>

@@ -13,6 +13,7 @@ using Microsoft.Office.Core;
 using System.Text.RegularExpressions;
 using Wordik.SQL;
 using Updates_namespace;
+using System.Threading;
 //using MSMQ_Class;
 
 namespace Wordik
@@ -162,9 +163,20 @@ namespace Wordik
                 if (ex is System.Data.SqlClient.SqlException || ex is WebException)
                 {
                     checkBox1.Checked = false;
+                    Thread t = new Thread(() => pause(300000));
+                    t.Start();
                 }
                 Error.Show(ex, User.get_uniq_id().ToString());
             }
+
+        }
+
+        private void pause(int time)
+        {
+            System.Console.WriteLine("Pauzujem " + time / 1000);
+            checkBox1.Checked = false;
+            Thread.Sleep(time);
+            checkBox1.Checked = true;
 
         }
 

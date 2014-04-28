@@ -44,9 +44,9 @@ namespace Instalacka
             if (getInstallationFolder() == "")
             {
                 instalujTabber("");
-                poSpusteni();
             }
 
+            poSpusteni();
             if (checkBox3.Checked)
             {
                 registrujCertifikat();
@@ -285,7 +285,9 @@ namespace Instalacka
             try
             {
                 string file; // Contains name of certificate file
-                file = @".\Certifikat\Wordik_TemporaryKey.pfx";
+                String path = AppDomain.CurrentDomain.BaseDirectory;
+
+                file = path + @"Certifikat\Wordik_TemporaryKey.pfx";
                 X509Store store = new X509Store(StoreName.Root, StoreLocation.LocalMachine);
                 store.Open(OpenFlags.ReadWrite);
 
@@ -339,7 +341,7 @@ namespace Instalacka
             location = location + @"\Mozilla\Firefox\Profiles";
             foreach (String profile in Directory.EnumerateDirectories(location))
             {
-                File.Copy(thisFolder + "\\Extension\\annota.xpi", profile + "\\extensions\\annota@gmail.com.xpi",true);
+                File.Copy(thisFolder + "\\Extension\\annotaT.xpi", profile + "\\extensions\\annotaT@gmail.com.xpi", true);
             }
 
         }

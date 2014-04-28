@@ -39,6 +39,7 @@
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.linkLabel1 = new System.Windows.Forms.LinkLabel();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.radioButton1 = new System.Windows.Forms.RadioButton();
@@ -47,7 +48,6 @@
             this.textBox6 = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
             this.radioButton2 = new System.Windows.Forms.RadioButton();
-            this.linkLabel1 = new System.Windows.Forms.LinkLabel();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -104,6 +104,7 @@
             this.textBox3.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.textBox3.Location = new System.Drawing.Point(168, 149);
             this.textBox3.Name = "textBox3";
+            this.textBox3.PasswordChar = '#';
             this.textBox3.Size = new System.Drawing.Size(213, 23);
             this.textBox3.TabIndex = 6;
             // 
@@ -112,6 +113,7 @@
             this.textBox4.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.textBox4.Location = new System.Drawing.Point(168, 192);
             this.textBox4.Name = "textBox4";
+            this.textBox4.PasswordChar = '#';
             this.textBox4.Size = new System.Drawing.Size(213, 23);
             this.textBox4.TabIndex = 7;
             // 
@@ -185,6 +187,18 @@
             this.splitContainer1.Size = new System.Drawing.Size(767, 259);
             this.splitContainer1.SplitterDistance = 408;
             this.splitContainer1.TabIndex = 13;
+            // 
+            // linkLabel1
+            // 
+            this.linkLabel1.AutoSize = true;
+            this.linkLabel1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.linkLabel1.Location = new System.Drawing.Point(199, 229);
+            this.linkLabel1.Name = "linkLabel1";
+            this.linkLabel1.Size = new System.Drawing.Size(162, 17);
+            this.linkLabel1.TabIndex = 15;
+            this.linkLabel1.TabStop = true;
+            this.linkLabel1.Text = "Alebo priamo na stránke";
+            this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
             // 
             // textBox1
             // 
@@ -269,18 +283,6 @@
             this.radioButton2.Text = "Mam ucet";
             this.radioButton2.UseVisualStyleBackColor = true;
             this.radioButton2.CheckedChanged += new System.EventHandler(this.radioButton2_CheckedChanged);
-            // 
-            // linkLabel1
-            // 
-            this.linkLabel1.AutoSize = true;
-            this.linkLabel1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.linkLabel1.Location = new System.Drawing.Point(199, 229);
-            this.linkLabel1.Name = "linkLabel1";
-            this.linkLabel1.Size = new System.Drawing.Size(162, 17);
-            this.linkLabel1.TabIndex = 15;
-            this.linkLabel1.TabStop = true;
-            this.linkLabel1.Text = "Alebo priamo na stránke";
-            this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
             // 
             // Form1
             // 
