@@ -67,7 +67,7 @@ namespace Tabber.Model
             }
         }
 
-        public string get_my_uniq_id()
+        public static string get_my_uniq_id()
         {
             ManagementObjectCollection mbsList = null;
             ManagementObjectSearcher mbs = new ManagementObjectSearcher("Select * From Win32_processor");

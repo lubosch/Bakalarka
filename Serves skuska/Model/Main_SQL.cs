@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Data;
 using System.Data.SqlClient;
+using Updates_namespace;
 
 namespace Wordik.SQL
 {
@@ -27,6 +28,8 @@ namespace Wordik.SQL
             string connectionString = Tabber.Properties.Settings.Default.RotekConnectionString;
             connection = new SqlConnection(connectionString);
             connection.Open();
+
+
             command = new SqlCommand();
             command.CommandType = CommandType.Text;
             command.Connection = connection;
@@ -80,7 +83,7 @@ namespace Wordik.SQL
             int ret;
             OpenConnestion();
             command = new SqlCommand(cmd, connection);
-            ret=command.ExecuteNonQuery();
+            ret = command.ExecuteNonQuery();
             CloseConnection();
             return ret;
         }

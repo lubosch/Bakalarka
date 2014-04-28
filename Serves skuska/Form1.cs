@@ -22,9 +22,11 @@ using System.Security.Principal;
 using Tabber.Widgety;
 using DirectShowLib;
 using DirectShowLib.DES;
+using Microsoft.Win32.TaskScheduler;
 
 namespace Tabber
 {
+    [DefaultEvent("ClipboardChanged")]
     public partial class Form1 : Form
     {
         private NotifyIcon trayIcon;
@@ -34,14 +36,18 @@ namespace Tabber
         private static WinEventDelegate winEventProcTextChange;
         public static int user_ID = -1;
 
+        private Boolean ctrl;
+
         ArrayList myProcessArray = new ArrayList();
         private Process myProcess;
 
         public static Boolean should_log = true;
-
+        public InterceptKeys logger = new InterceptKeys();
+        private IntPtr nextClipboardViewer;
+        //globalKeyboardHook gkh = new globalKeyboardHook();
         //private string queueName = @".\private$\server_skuska";
 
-
+        public CookieContainer cookieContainer;
 
         public Form1()
         {
@@ -50,22 +56,22 @@ namespace Tabber
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            Updates updates = new Updates(1);
+            Updates updates = new Updates(0);
             AddFirewall();
 
-            Visible = false;
+            //Visible = false;
             ShowInTaskbar = false;
             SysTrayApp();
 
 
             Boolean isElevated = UacHelper.IsProcessElevated;
-
+            cookieContainer = new CookieContainer();
             //Error.Message(isElevated);
 
 
             try
             {
-                updates.aktualizacie("BakalarkaDebug", "{8766CBFD-294B-446B-A02A-E9498BA98B04}", Form1.get_user_id().ToString());
+                updates.aktualizacie("Bakalarka", "{8766CBFD-294B-446B-A02A-E9498BA98B04}", Form1.get_user_id().ToString());
             }
             catch (System.Exception ex)
             {
@@ -74,6 +80,9 @@ namespace Tabber
                 //pauseLog(300000);
             }
 
+
+            //authorize();
+            poSpusteni();
 
             //Thread t2;
             winEventProc = new WinEventDelegate(WinEventProc);
@@ -87,7 +96,78 @@ namespace Tabber
             SetWinEventHook(EVENT_SYSTEM_FOREGROUND, EVENT_SYSTEM_FOREGROUND, IntPtr.Zero, winEventProc, 0, 0, WINEVENT_OUTOFCONTEXT);
             //SetWinEventHook(EVENT_OBJECT_NAMECHANGE, EVENT_OBJECT_NAMECHANGE, IntPtr.Zero, winEventProcTextChange, 0, 0, WINEVENT_OUTOFCONTEXT);
 
+            nextClipboardViewer = (IntPtr)SetClipboardViewer((int)this.Handle);
 
+
+            InterceptKeys.KeyDown += new KeyEventHandler(gkh_KeyDown);
+            InterceptKeys.KeyUp += new KeyEventHandler(gkh_KeyUp);
+
+
+        }
+
+        void gkh_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.LControlKey)
+                ctrl = false;
+            e.Handled = true;
+        }
+
+        void gkh_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.LControlKey)
+                ctrl = true;
+            if (e.KeyCode == Keys.V && ctrl)
+            {
+                PastedClipboardData();
+                ctrl = false;
+            }
+            e.Handled = true;
+        }
+
+        private void poSpusteni()
+        {
+
+            String exePath = AppDomain.CurrentDomain.BaseDirectory;
+            //string exePath = getInstallationFolder();
+            if (exePath.Length == 0)
+            {
+                return;
+            }
+            else
+            {
+                exePath = exePath + "\\Tabber.exe";
+            }
+
+            using (TaskService ts = new TaskService())
+            {
+                try
+                {
+
+                    // Create a new task definition and assign properties
+                    TaskDefinition td = ts.NewTask();
+                    td.RegistrationInfo.Description = "Spusti Tabber po spusteni";
+
+                    // Create a trigger that will fire the task at this time every other day
+                    LogonTrigger lt = new LogonTrigger();
+                    lt.Delay = new System.TimeSpan(0, 5, 0);
+                    td.Triggers.Add(lt);
+
+                    td.Principal.RunLevel = TaskRunLevel.Highest;
+
+                    // Create an action that will launch Notepad whenever the trigger fires
+                    td.Actions.Add(new ExecAction(exePath, null, null));
+
+                    // Register the task in the root folder
+                    ts.RootFolder.RegisterTaskDefinition(@"Tabber", td);
+
+                    // Remove the task we just created
+                    //ts.RootFolder.DeleteTask("Test");
+                }
+                catch (System.Exception ex)
+                {
+
+                }
+            }
         }
 
         public void AddFirewall()
@@ -154,6 +234,14 @@ namespace Tabber
             trayMenu.MenuItems.RemoveAt(2);
             trayMenu.MenuItems.Add("Zapnúť logovanie, prosím", startAgainLog);
         }
+        private void continueLog(object sender, EventArgs e)
+        {
+            should_log = true;
+            trayMenu.MenuItems.RemoveAt(2);
+            trayMenu.MenuItems.RemoveAt(1);
+            trayMenu.MenuItems.Add("Stop logovaniu na 1 hodinu", pauseLog);
+            trayMenu.MenuItems.Add("Stop logovaniu", quitLog);
+        }
 
         private void startAgainLog(object sender, EventArgs e)
         {
@@ -169,12 +257,27 @@ namespace Tabber
 
         private void pauseLog(int time)
         {
+            trayMenu.MenuItems.RemoveAt(2);
+            trayMenu.MenuItems.RemoveAt(1);
+            trayMenu.MenuItems.Add("Zapnúť logovanie, prosím", continueLog);
+            trayMenu.MenuItems.Add("Stop logovaniu", quitLog);
+
+
+            Thread t = new Thread(() => pause(time));
+            t.Start();
+        }
+
+
+        private void pause(int time)
+        {
             System.Console.WriteLine("Pauzujem " + time / 1000);
-            should_log = false;
+            Form1.should_log = false;
             Thread.Sleep(3600000);
-            should_log = true;
+            continueLog(null, null);
+            //Form1.should_log = true;
 
         }
+
 
         private void button1_Click(object sender, EventArgs e)
         {
@@ -226,25 +329,40 @@ namespace Tabber
 
         private void getFileProcesses()
         {
+            List<String> videos_buffer = new List<String>();
+            List<String> music_buffer = new List<String>();
+
             while (true)
             {
                 if (!should_log)
                 {
-                    Thread.Sleep(5000);
+                    Thread.Sleep(50000);
                     continue;
+                }
+                else
+                {
+                    Thread.Sleep(30000);
                 }
 
                 try
                 {
+                    List<String> watching_videos = new List<String>();
+                    List<String> listening_music = new List<String>();
+
                     Process analyzator = new Process();
-                    analyzator.StartInfo = new System.Diagnostics.ProcessStartInfo(".\\handle.exe", "-a");
+                    String path = AppDomain.CurrentDomain.BaseDirectory;
+
+                    analyzator.StartInfo = new System.Diagnostics.ProcessStartInfo(path);
+                    analyzator.StartInfo.WorkingDirectory = path;
+                    analyzator.StartInfo.FileName = "handle.exe";
+                    analyzator.StartInfo.Arguments = "-a";
                     analyzator.StartInfo.CreateNoWindow = true;
                     analyzator.StartInfo.UseShellExecute = false;
                     analyzator.StartInfo.RedirectStandardOutput = true;
+
+
                     myProcessArray.Clear();
                     int i = 0;
-                    int previous_audio_lock = 0;
-                    int previous_video_lock = 0;
 
                     Dictionary<string, Regex> programs = programs_regex_init();
 
@@ -255,12 +373,16 @@ namespace Tabber
                     {
                         //sb.AppendLine(line);
                         String anal_result = anal_file(line.ToString());
-                        if (anal_result == "audio" || anal_result == "video")
+                        if ((anal_result == "audio" || anal_result == "video") && line.IndexOf(":\\") > 1)
                         {
 
                             string subor = line.Substring(line.IndexOf(":\\") - 1);
                             subor = subor.Substring(0, subor.Length - 1);
                             subor = fix_path(subor);
+                            if (subor == "")
+                            {
+                                continue;
+                            }
                             ProcessData prc = getProcessOfFile(subor);
                             if (prc == null)
                             {
@@ -272,103 +394,112 @@ namespace Tabber
 
                                     try
                                     {
-                                        previous_audio_lock++;
-                                        //Console.WriteLine("|" + prc + " : " + subor + " > " + line + "  " + previous_audio_lock);
-
-                                        TagLib.File f = TagLib.File.Create(subor);
-                                        Console.WriteLine("Audio | " + f.Tag.FirstArtist + "|" + f.Tag.Title + " > " + f.Properties.Duration.TotalSeconds + " |");
-                                        String artist = "", genre = "", name = f.Tag.Title;
-                                        if (f.Tag.Artists.Count() > 0)
-                                            artist = f.Tag.Artists[0];
-                                        if (f.Tag.Genres.Count() > 0)
-                                            genre = f.Tag.Genres[0];
-                                        if (name == null)
-                                        {
-                                            name = subor.Substring(subor.LastIndexOf("\\") + 1);
-                                            name = name.Substring(0, name.LastIndexOf("."));
-                                        }
-                                        //MessageBox.Show("|" + name + "|" + subor);
-
-                                        using (WebClient client = new WebClient())
-                                        {
-                                            byte[] response = client.UploadValues("http://77.234.226.34:3000/song", new System.Collections.Specialized.NameValueCollection() { { "filename", subor }, { "name", name }, { "length", f.Properties.Duration.TotalSeconds.ToString() }, { "artist", artist }, { "genre", genre }, { "software_name", prc.processName } });
-                                        }
-
-
-                                        //Song s = new Song
-                                        //{
-                                        //    fileName = subor,
-                                        //    name = name,
-                                        //    length = (long)f.Properties.Duration.TotalSeconds,
-                                        //    artist = artist,
-                                        //    genre = genre
-                                        //};
-                                        //if (previous_audio_lock == 1)
-                                        //{
-                                        //    SongSQL.logSong(prc, s, get_user_id());
-                                        //}
-                                        //Error.Message("|" + f.Tag.FirstArtist + "|" + f.Tag.FirstGenre);
+                                        if (!listening_music.Contains(subor))
+                                            listening_music.Add(subor);
+                                    }
+                                    catch (System.Net.WebException ex)
+                                    {
+                                        pauseLog(300000);
                                     }
                                     catch (System.Exception ex)
                                     {
                                         //pauseLog(300000);
                                         Error.Show(ex, Form1.get_user_id().ToString());
-
                                     }
                                     break;
                                 case "video":
                                     try
                                     {
-
-                                        using (WebClient client = new WebClient())
+                                        if (!watching_videos.Contains(subor))
                                         {
-                                            byte[] response = client.UploadValues("http://77.234.226.34:3000/video", new System.Collections.Specialized.NameValueCollection() { { "filename", subor }, { "name", getNameByFilename(subor) }, { "length", getMovieLength(subor).ToString() }, { "software_name", prc.processName } });
+                                            //MessageBox.Show(watching_videos.Contains(subor).ToString());
+                                            watching_videos.Add(subor);
                                         }
-                                        //previous_video_lock++;
-                                        //Console.WriteLine("Video |" + subor + "|" + prc.PID);
-                                        //if (previous_video_lock == 1)
-                                        //{
-                                        //    VideoSQL videoSQL = new VideoSQL(subor, getNameByFilename(subor), prc);
-                                        //    videoSQL.save(get_user_id());
-                                        //    //Error.Show("Video | " + subor);
-                                        //}
+                                    }
+                                    catch (System.Net.WebException ex)
+                                    {
+                                        pauseLog(300000);
                                     }
                                     catch (System.Exception ex)
                                     {
-                                        //if (ex is System.Data.SqlClient.SqlException || ex is System.Data.Entity.Core.EntityException)
-                                        //{
-                                        //    pauseLog(300000);
-                                        //}
-                                        //else
-                                        //{
                                         Error.Show(ex, Form1.get_user_id().ToString());
-                                        //}
                                     }
                                     break;
                             }
                         }
+
+
                         //Debug.WriteLine(line + "  " + line.IndexOf(".mp3") + "  " + line.Length);
 
                         //Error.Show(line + "  " + line.IndexOf(".mp3") + "  " + line.Length);
                     }
+
+                    List<string> music = listening_music.Except(music_buffer, StringComparer.OrdinalIgnoreCase).ToList<String>();
+                    foreach (String subor_music in music)
+                    {
+                        spracuj_audio(subor_music);
+                    }
+
+                    List<string> video = watching_videos.Except(videos_buffer, StringComparer.OrdinalIgnoreCase).ToList<String>();
+                    foreach (String subor_video in video)
+                    {
+                        spracuj_video(subor_video);
+                    }
+                    music_buffer = listening_music;
+                    videos_buffer = watching_videos;
                     analyzator.WaitForExit();
+                    analyzator.Close();
                     //Console.Out.Write("FINITO");
 
                 }
                 catch (Exception exception)
                 {
-                    //Error.Show(exception.ToString());
-                    Console.WriteLine(("Error : " + exception.ToString() + "  "));
+                    String path = AppDomain.CurrentDomain.BaseDirectory + "handle.exe";
+                    Error.Show(exception.ToString() + " \n " + path + File.Exists(path), get_user_id().ToString());
                 }
+            }
+        }
+
+        public void spracuj_audio(String subor)
+        {
+            ProcessData prc = getProcessOfFile(subor);
+
+            TagLib.File f = TagLib.File.Create(subor);
+            Console.WriteLine("Audio | " + f.Tag.FirstArtist + "|" + f.Tag.Title + " > " + f.Properties.Duration.TotalSeconds + " |");
+            String artist = "", genre = "", name = f.Tag.Title;
+            if (f.Tag.Artists.Count() > 0)
+                artist = f.Tag.Artists[0];
+            if (f.Tag.Genres.Count() > 0)
+                genre = f.Tag.Genres[0];
+            if (name == null)
+            {
+                name = subor.Substring(subor.LastIndexOf("\\") + 1);
+                if (name.LastIndexOf(".") > -1)
+                    name = name.Substring(0, name.LastIndexOf("."));
+            }
+            //MessageBox.Show("|" + name + "|" + subor);
+
+            using (var client = new CookieAwareWebClient(cookieContainer))
+            {
+                byte[] response = client.UploadValues("http://77.234.226.34:3000/song", new System.Collections.Specialized.NameValueCollection() { { "filename", subor }, { "name", name }, { "length", f.Properties.Duration.TotalSeconds.ToString() }, { "artist", artist }, { "genre", genre }, { "software_name", prc.processName }, { "user_id", get_user_id().ToString() } });
+            }
+
+        }
+        public void spracuj_video(String subor)
+        {
+            ProcessData prc = getProcessOfFile(subor);
+            Console.WriteLine("Video | " + subor + " |");
+            int video_length = getMovieLength(subor);
+            using (var client = new CookieAwareWebClient(cookieContainer))
+            {
+                byte[] response = client.UploadValues("http://77.234.226.34:3000/video", new System.Collections.Specialized.NameValueCollection() { { "filename", subor }, { "name", getNameByFilename(subor) }, { "length", video_length.ToString() }, { "software_name", prc.processName }, { "user_id", get_user_id().ToString() } });
             }
         }
 
         public int getMovieLength(String file_name)
         {
-            return 0;
             try
             {
-
 
                 var mediaDet = (IMediaDet)new MediaDet();
                 DsError.ThrowExceptionForHR(mediaDet.put_Filename(file_name));
@@ -408,17 +539,20 @@ namespace Tabber
         public String getNameByFilename(String fileName)
         {
             string name = fileName.Substring(fileName.LastIndexOf(@"\") + 1);
-            name = name.Substring(0, name.LastIndexOf("."));
+            if (name.LastIndexOf(".") > -1)
+                name = name.Substring(0, name.LastIndexOf("."));
             return name;
         }
 
         public ProcessData getProcessOfFile(String filename)
         {
+            String path = AppDomain.CurrentDomain.BaseDirectory;
             Process tool = new Process();
-            //tool.StartInfo = new System.Diagnostics.ProcessStartInfo("C:\\Users\\Fred\\Desktop\\handle.exe", "-a");
             ProcessData prc = null;
-            tool.StartInfo.FileName = ".\\handle.exe";
+            tool.StartInfo.WorkingDirectory = path;
+            tool.StartInfo.FileName = "handle.exe";
             tool.StartInfo.Arguments = "\"" + filename + "\"";
+
             tool.StartInfo.UseShellExecute = false;
             tool.StartInfo.RedirectStandardOutput = true;
             tool.StartInfo.CreateNoWindow = true;
@@ -529,6 +663,153 @@ namespace Tabber
         [DllImport("psapi.dll")]
         private static extern uint GetModuleFileNameEx(IntPtr hWnd, IntPtr hModule, StringBuilder lpFileName, int nSize);
 
+        [DllImport("User32.dll")]
+        protected static extern int SetClipboardViewer(int hWndNewViewer);
+
+        [DllImport("User32.dll", CharSet = CharSet.Auto)]
+        public static extern bool ChangeClipboardChain(IntPtr hWndRemove, IntPtr hWndNewNext);
+
+        [DllImport("user32.dll", CharSet = CharSet.Auto)]
+        public static extern int SendMessage(IntPtr hwnd, int wMsg, IntPtr wParam, IntPtr lParam);
+
+        //[DllImport("user32", SetLastError = true)]
+        //private static extern bool RegisterHotKey(IntPtr hWnd, int id, uint fsModifiers, uint vk);
+
+        //[DllImport("user32", SetLastError = true)]
+        //private static extern bool UnregisterHotKey(IntPtr hWnd, int id);
+
+        //public static void UnregisterHotKey(int id)
+        //{
+        //    _wnd.Invoke(new UnRegisterHotKeyDelegate(UnRegisterHotKeyInternal), _hwnd, id);
+        //}
+
+        //delegate void RegisterHotKeyDelegate(IntPtr hwnd, int id, uint modifiers, uint key);
+        //delegate void UnRegisterHotKeyDelegate(IntPtr hwnd, int id);
+
+        //private static void RegisterHotKeyInternal(IntPtr hwnd, int id, uint modifiers, uint key)
+        //{
+        //    RegisterHotKey(hwnd, id, modifiers, key);
+        //}
+
+        //private static void UnRegisterHotKeyInternal(IntPtr hwnd, int id)
+        //{
+        //    UnregisterHotKey(IntPtr.Zero, id);
+        //}
+
+
+        //public void HotKeyManager_HotKeyPressed(object sender, HotKeyEventArgs e)
+        //{
+        //    //DisplayClipboardData();
+        //    //MessageBox.Show("kliknute");
+        //}
+
+
+        protected override void WndProc(ref System.Windows.Forms.Message m)
+        {
+            //defined in winuser.h
+            const int WM_DRAWCLIPBOARD = 0x308;
+            const int WM_CHANGECBCHAIN = 0x030D;
+
+            const int WM_HOTKEY = 0x312;
+
+            switch (m.Msg)
+            {
+                case WM_DRAWCLIPBOARD: CopiedClipboardData();
+                    SendMessage(nextClipboardViewer, m.Msg, m.WParam, m.LParam);
+                    break;
+
+                case WM_CHANGECBCHAIN:
+                    if (m.WParam == nextClipboardViewer)
+                        nextClipboardViewer = m.LParam;
+                    else
+                        SendMessage(nextClipboardViewer, m.Msg, m.WParam, m.LParam);
+                    break;
+                //case WM_PASTE:
+                //    //DisplayClipboardData();
+                //    MessageBox.Show("asda");
+                //    break;
+
+                default:
+                    base.WndProc(ref m);
+                    break;
+            }
+            //base.WndProc(ref m);
+
+        }
+
+        public void PastedClipboardData()
+        {
+            string clipboard = DisplayClipboardData();
+            if (clipboard != "" && Form1.should_log)
+            {
+                try
+                {
+                    System.Console.WriteLine(clipboard);
+                    ProcessData process = GetTopWindowProcessData();
+                    using (var client = new CookieAwareWebClient(cookieContainer))
+                    {
+                        client.UploadValuesAsync(new Uri("http://77.234.226.34:3000/pasted"), new System.Collections.Specialized.NameValueCollection() { { "process_name", process.processName }, { "clipboard", clipboard }, { "user_id", get_user_id().ToString() } });
+                    }
+                }
+                catch (System.Net.WebException ex)
+                {
+                    //Error.Message(ex);
+                    //authorize();
+                    //pauseLog(300000);
+                }
+                catch (System.Exception ex)
+                {
+                    Error.Show(ex, Form1.get_user_id().ToString());
+                }
+            }
+        }
+        public void CopiedClipboardData()
+        {
+            string clipboard = DisplayClipboardData();
+            if (clipboard != "" && Form1.should_log)
+            {
+                try
+                {
+                    System.Console.WriteLine(clipboard);
+
+                    ProcessData process = GetTopWindowProcessData();
+                    using (var client = new CookieAwareWebClient(cookieContainer))
+                    {
+                        byte[] response = client.UploadValues("http://77.234.226.34:3000/copied", new System.Collections.Specialized.NameValueCollection() { { "process_name", process.processName }, { "clipboard", clipboard }, { "user_id", get_user_id().ToString() } });
+                    }
+                }
+                catch (System.Net.WebException ex)
+                {
+                    //Error.Message(ex);
+                    //authorize();
+                    //pauseLog(300000);
+                }
+                catch (System.Exception ex)
+                {
+                    Error.Show(ex, Form1.get_user_id().ToString());
+                }
+            }
+
+        }
+        public String DisplayClipboardData()
+        {
+            try
+            {
+                if (Clipboard.ContainsText())
+                {
+                    return Clipboard.GetText();
+                }
+
+            }
+            catch (Exception e)
+            {
+                // Swallow or pop-up, not sure 
+                // Trace.Write(e.ToString()); 
+                MessageBox.Show(e.ToString());
+            }
+            return "";
+        }
+
 
         public ProcessData GetTopWindowProcessData()
         {
@@ -568,30 +849,54 @@ namespace Tabber
 
                 Debug.WriteLine(DateTime.Now.ToShortTimeString() + " zaciatok");
                 ProcessData process = GetTopWindowProcessData();
-                using (WebClient client = new WebClient())
+                using (var client = new CookieAwareWebClient(cookieContainer))
                 {
-                    byte[] response = client.UploadValues("http://77.234.226.34:3000/log_software", new System.Collections.Specialized.NameValueCollection() { { "process_name", process.processName}, { "window_name", process.windowName}, { "description", process.description }, { "filepath", process.filePath} });
+                    //authorize();
+                    //byte[] response = client.UploadValues("http://77.234.226.34:3000/user_sessions", new System.Collections.Specialized.NameValueCollection() { { "uniq_pc", UserSQL.get_my_uniq_id() } });
+                    byte[] response = client.UploadValues("http://77.234.226.34:3000/log_software", new System.Collections.Specialized.NameValueCollection() { { "process_name", process.processName }, { "window_name", process.windowName }, { "description", process.description }, { "filepath", process.filePath }, { "user_id", get_user_id().ToString() } });
                 }
                 //LogSoftwareSQL.AddNewLog(process, get_user_id());
 
                 System.Console.WriteLine("Lognute> " + process.filePath + " | " + process.processName + " | " + process.windowName + "\r\n");
                 Debug.WriteLine("koniec");
             }
+            catch (System.Net.WebException ex)
+            {
+                //Error.Message(ex);
+                //authorize();
+                //pauseLog(300000);
+            }
             catch (System.Exception ex)
             {
-                //if (ex is System.Data.SqlClient.SqlException || ex is System.Data.Entity.Core.EntityException)
-                //{
-                //    pauseLog(300000);
-                //}
-                //else
-                //{
                 Error.Show(ex, Form1.get_user_id().ToString());
-                //}
             }
 
             //Error.Show(GetActiveWindowTitle() + "  " + GetTopWindowName() + "\r\n");
 
         }
+
+        //public void authorize()
+        //{
+        //    try
+        //    {
+        //        CookieContainer coocks;
+        //        using (var client = new CookieAwareWebClient(cookieContainer))
+        //        {
+        //            byte[] response = client.UploadValues("http://77.234.226.34:3000/user_sessions", new System.Collections.Specialized.NameValueCollection() { { "uniq_pc", UserSQL.get_my_uniq_id() } });
+        //            //Error.Message(client.container.GetCookieHeader());
+        //            coocks = client.container;
+        //        }
+        //        cookieContainer = coocks;
+        //    }
+        //    catch (System.Net.WebException ex)
+        //    {
+        //        pauseLog(300000);
+        //    }
+        //    catch (System.Exception ex)
+        //    {
+        //        Error.Show(ex, get_user_id().ToString());
+        //    }
+        //}
 
 
         private void button3_Click(object sender, EventArgs e)
@@ -605,7 +910,7 @@ namespace Tabber
 
                 //PDFParser pdfp = new PDFParser();
                 //pdfp.ExtractText(of.FileName, "halo.txt");
-                System.Console.WriteLine(PDFParser.pdfText(of.FileName));
+                //System.Console.WriteLine(PDFParser.pdfText(of.FileName));
 
             }
         }
@@ -668,46 +973,55 @@ namespace Tabber
             }
         }
 
-        String fix_path(String path)
+        String fix_path(String path2)
         {
-            if (path.IndexOf("?") >= 0)
+            string path = path2;
+            try
             {
-                String temp_path = path.Substring(0, path.IndexOf("?"));
-                String temp_path2 = path.Substring(path.IndexOf("?"));
-
-                if (temp_path2.IndexOf("\\") > -1)
+                if (path.IndexOf("?") >= 0)
                 {
-                    String temp_rest = temp_path2.Substring(temp_path2.IndexOf("\\"));
-                    temp_path = temp_path + temp_path2.Substring(0, temp_path2.IndexOf("\\"));
-                    temp_path2 = temp_path.Substring(temp_path.LastIndexOf("\\") + 1);
-                    temp_path = temp_path.Substring(0, temp_path.LastIndexOf("\\"));
+                    String temp_path = path.Substring(0, path.IndexOf("?"));
+                    String temp_path2 = path.Substring(path.IndexOf("?"));
 
-                    foreach (String directory_full in Directory.EnumerateDirectories(temp_path))
+                    if (temp_path2.IndexOf("\\") > 0)
                     {
-                        String directory = directory_full.Substring(directory_full.LastIndexOf("\\") + 1);
-                        if (compare_fix_names(temp_path2, directory))
+                        String temp_rest = temp_path2.Substring(temp_path2.IndexOf("\\"));
+                        temp_path = temp_path + temp_path2.Substring(0, temp_path2.IndexOf("\\"));
+                        temp_path2 = temp_path.Substring(temp_path.LastIndexOf("\\") + 1);
+                        temp_path = temp_path.Substring(0, temp_path.LastIndexOf("\\"));
+
+                        foreach (String directory_full in Directory.EnumerateDirectories(temp_path))
                         {
-                            temp_path = directory_full + temp_rest;
-                            return fix_path(temp_path);
+                            String directory = directory_full.Substring(directory_full.LastIndexOf("\\") + 1);
+                            if (compare_fix_names(temp_path2, directory))
+                            {
+                                temp_path = directory_full + temp_rest;
+                                return fix_path(temp_path);
+                            }
                         }
                     }
-                }
-                else
-                {
-                    temp_path = temp_path + temp_path2;
-                    temp_path2 = temp_path.Substring(temp_path.LastIndexOf("\\") + 1);
-                    temp_path = temp_path.Substring(0, temp_path.LastIndexOf("\\"));
-                    foreach (String file_full in Directory.EnumerateFiles(temp_path))
+                    else if (temp_path.LastIndexOf("\\") > -1)
                     {
-                        String file = file_full.Substring(file_full.LastIndexOf("\\") + 1);
-                        if (compare_fix_names(temp_path2, file))
+                        temp_path = temp_path + temp_path2;
+                        temp_path2 = temp_path.Substring(temp_path.LastIndexOf("\\") + 1);
+                        temp_path = temp_path.Substring(0, temp_path.LastIndexOf("\\"));
+                        foreach (String file_full in Directory.EnumerateFiles(temp_path))
                         {
-                            temp_path = file_full;
-                            return fix_path(temp_path);
+                            String file = file_full.Substring(file_full.LastIndexOf("\\") + 1);
+                            if (compare_fix_names(temp_path2, file))
+                            {
+                                temp_path = file_full;
+                                return fix_path(temp_path);
+                            }
                         }
                     }
                 }
             }
+            catch (System.Exception ex)
+            {
+                return path2;
+            }
+            //MessageBox.Show(path);
             return path;
         }
 
@@ -778,4 +1092,34 @@ namespace Tabber
             this.windowName = windowName;
         }
     }
+
+    public class HotKeyEventArgs : EventArgs
+    {
+        public readonly Keys Key;
+        public readonly KeyModifiers Modifiers;
+
+        public HotKeyEventArgs(Keys key, KeyModifiers modifiers)
+        {
+            this.Key = key;
+            this.Modifiers = modifiers;
+        }
+
+        public HotKeyEventArgs(IntPtr hotKeyParam)
+        {
+            uint param = (uint)hotKeyParam.ToInt64();
+            Key = (Keys)((param & 0xffff0000) >> 16);
+            Modifiers = (KeyModifiers)(param & 0x0000ffff);
+        }
+    }
+
+    [Flags]
+    public enum KeyModifiers
+    {
+        Alt = 1,
+        Control = 2,
+        Shift = 4,
+        Windows = 8,
+        NoRepeat = 0x4000
+    }
+
 }
