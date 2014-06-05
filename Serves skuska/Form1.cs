@@ -59,7 +59,7 @@ namespace Tabber
             Updates updates = new Updates(0);
             AddFirewall();
 
-            //Visible = false;
+            Visible = false;
             ShowInTaskbar = false;
             SysTrayApp();
 

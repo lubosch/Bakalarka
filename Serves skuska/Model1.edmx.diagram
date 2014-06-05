@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="2.0" xmlns:edmx="http://schemas.microsoft.com/ado/2008/10/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2008/10/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="a5a9945e45ce46c6b1483aec267ef05b" Name="Diagram1" ZoomLevel="75">
+        <EntityTypeShape EntityType="BakalarkaModel.Clipboards" Width="1.5" PointX="7" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="BakalarkaModel.Heading_Word" Width="1.5" PointX="11" PointY="1.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="BakalarkaModel.Keyword_Heading" Width="1.5" PointX="13.125" PointY="1.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="BakalarkaModel.Keyword_Word" Width="1.5" PointX="11" PointY="4.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="BakalarkaModel.Log_Movie" Width="1.5" PointX="4.875" PointY="7.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="BakalarkaModel.Log_Software" Width="1.5" PointX="4.75" PointY="4.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="BakalarkaModel.Log_Song" Width="1.5" PointX="4.875" PointY="1.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="BakalarkaModel.Movie" Width="1.5" PointX="1.5" PointY="7.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="BakalarkaModel.Software" Width="1.5" PointX="1.125" PointY="4.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="BakalarkaModel.Song" Width="1.5" PointX="1.25" PointY="1.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="BakalarkaModel.Text_Word" Width="1.5" PointX="11" PointY="6.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="BakalarkaModel.User" Width="1.5" PointX="7" PointY="3.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="BakalarkaModel.Word" Width="1.5" PointX="8.875" PointY="4.25" IsExpanded="true" />
+        <AssociationConnector Association="BakalarkaModel.FK_Heading_Word_Heading_Word" ManuallyRouted="false" />
+        <AssociationConnector Association="BakalarkaModel.FK_Heading_Word_Word" ManuallyRouted="false" />
+        <AssociationConnector Association="BakalarkaModel.FK_Keyword_Heading_Heading_Word" ManuallyRouted="false" />
+        <AssociationConnector Association="BakalarkaModel.FK_Keyword_Word_Word" ManuallyRouted="false" />
+        <AssociationConnector Association="BakalarkaModel.FK_Log_Movie_Movie" ManuallyRouted="false" />
+        <AssociationConnector Association="BakalarkaModel.FK_Log_Movie_Software" ManuallyRouted="false" >
+        </AssociationConnector>
+        <AssociationConnector Association="BakalarkaModel.FK_Log_Movie_User" ManuallyRouted="false" />
+        <AssociationConnector Association="BakalarkaModel.FK_Log_Software_Software" ManuallyRouted="false" />
+        <AssociationConnector Association="BakalarkaModel.FK_Log_Software_User" ManuallyRouted="false" />
+        <AssociationConnector Association="BakalarkaModel.FK_Log_Song_Software" ManuallyRouted="false" >
+        </AssociationConnector>
+        <AssociationConnector Association="BakalarkaModel.FK_Log_Song_Song" ManuallyRouted="false" >
+        </AssociationConnector>
+        <AssociationConnector Association="BakalarkaModel.FK_Log_Song_User" ManuallyRouted="false" />
+        <AssociationConnector Association="BakalarkaModel.FK_Movie_Software" ManuallyRouted="false" />
+        <AssociationConnector Association="BakalarkaModel.FK_Text_Word_Word" ManuallyRouted="false" />
+        <AssociationConnector Association="BakalarkaModel.UserWord" />
+        <AssociationConnector Association="BakalarkaModel.UserClipboards" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
